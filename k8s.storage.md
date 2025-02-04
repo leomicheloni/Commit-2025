@@ -67,7 +67,7 @@ spec:
         volumeMounts: # los volúmnes se montan en los contenedores
         - name: hostpath
           mountPath: /usr/share/nginx/html
-    volumes: 
+      volumes: 
       - name: hostpath
         hostPath: # un path en el Nodo, es decir, muere si el nodo desaparece
           path: /tmp
@@ -77,6 +77,7 @@ spec:
 ``` powershell
 kubectl apply -f hostpath.yml
 kubectl cp /html/index.html my-nginx-684b44998b-rkqg7:/usr/share/nginx/html/index.html
+kubectl port-forward deployment/my-nginx 8088:80
 ```
 
 ``` powershell

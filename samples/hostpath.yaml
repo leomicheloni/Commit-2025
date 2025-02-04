@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+  labels:
+    app: my-nginx #importante para relacionar objetos
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-nginx #objetos a los que afecta
+  template:
+    metadata:
+      labels:
+        app: my-nginx #etiqueta custom para asociar este objeto
+    spec: # definición de los Pods
+      containers:
+      - name: my-nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80 #solo informativo
+        resources: # acá pueden ir cosas como límites de CPU y memoria
+        volumeMounts: # los volúmnes se montan en los contenedores
+        - name: hostpath
+          mountPath: /usr/share/nginx/html
+      volumes: 
+      - name: hostpath
+        hostPath: # un path en el Nodo, es decir, muere si el nodo desaparece
+          path: /tmp
+          type: DirectoryOrCreate # puede ser de varios tipos
