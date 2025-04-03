@@ -1,0 +1,35 @@
+flowchart LR
+    subgraph Configurations
+        CM[ConfigMap: mysql-config] -->|Proveer Configuración| MySQLPod
+        S[Secret: mysql-secret] -->|Proveer Credenciales| MySQLPod
+        S -->|Proveer Credenciales| WordPressPod
+    end
+
+    subgraph PersistentVolumes
+        WP_PVC[PVC: wordpress-pvc] -->|Asociado a| WP_Storage[WordPress Storage]
+        MySQL_PVC[PVC: mysql-pvc] -->|Asociado a| MySQL_Storage[MySQL Storage]
+    end
+
+    subgraph Services
+        WP_Service[Service: wordpress] -->|Exponer| WP_External[External Access]
+        MySQL_Service[Service: mysql] -->|ClusterIP| MySQLPod
+    end
+
+    subgraph Deployments
+        WordPressDeployment[Deployment: wordpress] -->|Crea| WordPressPod[Pod: wordpress]
+        MySQLDeployment[Deployment: mysql] -->|Crea| MySQLPod[Pod: mysql]
+    end
+
+    WordPressPod -->|Usa PVC| WP_PVC
+    WordPressPod -->|Conecta a| MySQL_Service
+    MySQLPod -->|Usa PVC| MySQL_PVC
+
+    classDef config fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef pvc fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef service fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef deployment fill:#ff9,stroke:#333,stroke-width:2px;
+
+    class CM,S config;
+    class WP_PVC,MySQL_PVC pvc;
+    class WP_Service,MySQL_Service service;
+    class WordPressDeployment,MySQLDeployment deployment;

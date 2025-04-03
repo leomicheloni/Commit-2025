@@ -96,7 +96,10 @@ spec:
             - name: WORDPRESS_DB_USER
               value: exampleuser
             - name: WORDPRESS_DB_PASSWORD
-              value: examplepass
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
             - name: WORDPRESS_DB_NAME
               value: exampledb
           volumeMounts:
@@ -108,6 +111,7 @@ spec:
             claimName: wordpress-pvc
 
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -133,9 +137,15 @@ spec:
             - name: MYSQL_USER
               value: exampleuser
             - name: MYSQL_PASSWORD
-              value: examplepass
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
             - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: '1'
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_RANDOM_ROOT_PASSWORD
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql

@@ -9,21 +9,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx2
+  name: my-nginx
   labels:
-    app: my-nginx2
+    app: my-nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-nginx2
+      app: my-nginx
   template:
     metadata:
       labels:
-        app: my-nginx2
+        app: my-nginx
     spec:
       containers:
-      - name: my-nginx2
+      - name: my-nginx
         image: nginx:alpine
         ports:
         resources:

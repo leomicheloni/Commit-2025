@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx2
+  name: my-nginx
   labels:
-    app: my-nginx2
+    app: my-nginx #importante para relacionar objetos
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: my-nginx2
+      app: my-nginx #objetos a los que afecta
   template:
     metadata:
       labels:
-        app: my-nginx2
-    spec:
+        app: my-nginx #etiqueta custom para asociar este objeto
+    spec: # definición de los Pods
       containers:
-      - name: my-nginx2
+      - name: my-nginx
         image: nginx:alpine
         ports:
-        resources:
+        - containerPort: 80 #solo informativo
+        resources: # acá pueden ir cosas como límites de CPU y memoria

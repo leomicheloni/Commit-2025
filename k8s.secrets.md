@@ -113,3 +113,5 @@ echo $SECRET_USERNAME
 ```
 
 > si el secret cambia se no se actualizan las environment variables
+
+[Volumenes](k8s.storage.md)

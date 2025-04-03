@@ -148,4 +148,44 @@ Cambiar timeout
 kubectl apply -f pod.yml
 ```
 
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: my-nginx
+ labels:
+  app: nginx
+  rel: stable
+spec:
+ containers:
+  - name: my-nginx
+    image: nginx:alpine
+    ports:
+     - containerPort: 80
+    resources:
+     requests:
+      memory: "64Mi"
+      cpu: "250m"
+     limits:
+      memory: "128Mi"
+      cpu: "500m"
+
+    livenessProbe:
+     httpGet:
+      path: /index.html
+      port: 80
+     initialDelaySeconds: 15
+     timeoutSeconds: 2
+     periodSeconds: 5
+     failureThreshold: 1
+    
+    readinessProbe:
+     httpGet:
+      path: /index.html
+      port: 80
+     initialDelaySeconds: 15
+     periodSeconds: 5
+     failureThreshold: 1
+```
+
 [Deployments](k8s.deployments.md)
