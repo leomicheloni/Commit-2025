@@ -30,11 +30,11 @@ spec:
 ```
 
 ``` powershell
-kubectl apply -f .\nginx2.yml
+kubectl apply -f .\deployment.yaml
 ```
 
 ``` powershell
-kubectl exec -it nginx2 -- bash
+kubectl exec -it nginx -- bash
 
 curl http://10.1.1.65
 
@@ -89,12 +89,44 @@ spec:
   #   targetPort: 443
 ```
 ``` powershell
-kubectl apply -f loadbalancer.yml
+kubectl apply -f loadbalancer.yaml
 ```
 
 ``` powershell
 kubectl scale deployment.apps/my-nginx  --replicas=1
 ```
+``` powershell
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "<h1>Welcome to Pod $(hostname)</h1>" > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
+      volumes:
+        - name: html-volume
+          emptyDir: {}
+```          
+
 
 ``` powershell
 kubectl scale deployment.apps/my-nginx  --replicas=2
