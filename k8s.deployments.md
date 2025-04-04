@@ -124,13 +124,19 @@ spec:
       - name: my-nginx
         image: nginx:latest # se cambia la imagen
 ```
+Ver historial de revisiones
 
 ``` powershell
 kubectl rollout history deployment
 ```
+
+Ver cambios en una revisión
+
 ``` powershell
 kubectl rollout history deployment my-nginx --revision=<número-de-revisión>
 ```
+
+Volver a una revisión anterior
 
 ``` powershell
 kubectl rollout undo deployment my-nginx --to-revision=2

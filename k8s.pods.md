@@ -87,11 +87,11 @@ spec:
 ```
 
 ``` powershell
-kubectl apply -f mypod.yaml
+kubectl apply -f pod.yaml
 ```
 
 ``` powershell
-kubectl delete -f mypod.yaml
+kubectl delete -f pod.yaml
 ```
 
 ## Probe

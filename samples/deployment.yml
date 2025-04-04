@@ -4,6 +4,8 @@ metadata:
   name: my-nginx
   labels:
     app: my-nginx #importante para relacionar objetos
+  annotations:
+    kubernetes.io/change-cause: "Initial Deployment"
 spec:
   replicas: 1
   selector:
@@ -16,7 +18,7 @@ spec:
     spec: # definición de los Pods
       containers:
       - name: my-nginx
-        image: nginx:alpine
+        image: nginx:alpine # imagen de nginx
         ports:
         - containerPort: 80 #solo informativo
         resources: # acá pueden ir cosas como límites de CPU y memoria
