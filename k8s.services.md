@@ -95,23 +95,24 @@ kubectl apply -f loadbalancer.yaml
 ``` powershell
 kubectl scale deployment.apps/my-nginx  --replicas=1
 ```
-``` powershell
+
+``` yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: my-nginx
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
-      app: nginx
+      app: my-nginx
   template:
     metadata:
       labels:
-        app: nginx
+        app: my-nginx
     spec:
       containers:
-        - name: nginx
+        - name: my-nginx
           image: nginx:latest
           ports:
             - containerPort: 80
@@ -121,7 +122,18 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
-              echo "<h1>Welcome to Pod $(hostname)</h1>" > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
+              echo "<!DOCTYPE html>
+              <html>
+              <head>
+                <title>Pod Info</title>
+                <script>
+                  setTimeout(() => { location.reload(); }, 5000);
+                </script>
+              </head>
+              <body>
+                <h1>Welcome to Pod $(hostname)</h1>
+              </body>
+              </html>" > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
       volumes:
         - name: html-volume
           emptyDir: {}
